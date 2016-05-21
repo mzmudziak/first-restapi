@@ -10,12 +10,13 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column
     private String firstName;
 
+    @Column
     private String lastName;
 
     public Person() {
-
     }
 
     public Person(long Id, String firstName, String lastName) {
