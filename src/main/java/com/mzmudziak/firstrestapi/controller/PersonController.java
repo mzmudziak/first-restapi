@@ -3,6 +3,7 @@ package com.mzmudziak.firstrestapi.controller;
 import com.mzmudziak.firstrestapi.entity.Person;
 import com.mzmudziak.firstrestapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,10 @@ public class PersonController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void removePersonById(@PathVariable long id) {
+        try {
         personRepository.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
