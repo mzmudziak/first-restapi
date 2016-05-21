@@ -18,12 +18,14 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Person> findPersonByFirstName(@RequestParam(value = "firstName", required = false) String firstName) {
-        if (firstName == null)
+    public List<Person> findPersonByFirstNameOrLastNameOrFindAll(@RequestParam(value = "firstName", required = false) String firstName, @RequestParam(value = "lastName", required = false) String lastName) {
+        if (firstName == null && lastName == null)
         return personRepository.findAll();
-        else {
+        else if (lastName == null) {
             return personRepository.findByFirstName(firstName);
-        }
+        } else if (firstName == null) {
+            return personRepository.findByLastName(lastName);
+        } else return personRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -37,5 +39,15 @@ public class PersonController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Person findPersonById(@PathVariable("id") long id) {
         return personRepository.findById(id);
+    }
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public long getCount() {
+        return personRepository.count();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void removePersonById(@PathVariable long id) {
+        personRepository.delete(id);
     }
 }

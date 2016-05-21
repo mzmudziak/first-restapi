@@ -13,4 +13,8 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Person findById(long id);
     List<Person> findByFirstName(String firstName);
+
+    List<Person> findByLastName(String lastName);
+
+    List<Person> findByFirstNameAndLastName(String firstName, String lastName);
 }
